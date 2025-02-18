@@ -1,14 +1,22 @@
 package ru.ikrom.videolist
 
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Text
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
+import coil3.compose.AsyncImage
+import ru.ikrom.resources.DescriptionsID
 
 
 @Composable
@@ -34,7 +42,30 @@ fun Content(
         onRefresh = onRefresh,
     ) {
         LazyColumn {
-
+            items(items) {
+                ThumbnailBigItem(
+                    it.title,
+                    it.thumbnail,
+                    it.duration.toString()
+                )
+            }
         }
+    }
+}
+
+@Composable
+fun ThumbnailBigItem(
+    title: String,
+    thumbnail: String,
+    duration: String,
+) {
+    Box(
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        AsyncImage(
+            model = thumbnail,
+            contentDescription = LocalContext.current.getString(DescriptionsID.VIDEO_THUMBNAIL)
+        )
+        Text(title)
     }
 }
