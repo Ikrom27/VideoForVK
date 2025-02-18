@@ -1,9 +1,7 @@
 package ru.ikrom.videolist
 
-import android.content.Context
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
@@ -14,18 +12,18 @@ class VideoListViewModel @Inject constructor(): ViewModel() {
 
     }
 
-    private val _state = MutableStateFlow(VideoListState.Success(emptyList()))
-    val state: StateFlow<VideoListState> = _state
+    private val _state = MutableStateFlow(UiState.Success(emptyList()))
+    val state: StateFlow<UiState> = _state
 
     init {
-        _state.value = VideoListState.Success(
+        _state.value = UiState.Success(
             testList
         )
     }
 }
 
 
-val image = "https://www.google.com/url?sa=i&url=https%3A%2F%2Fvisme.co%2Fblog%2Fhow-to-make-a-video%2F&psig=AOvVaw0sPTvP9MbVSJ66i95rwJCz&ust=1739971002914000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCPj535-nzYsDFQAAAAAdAAAAABAE"
+val image = "https://babich.biz/content/images/2017/01/schools-promotional-videos.jpg"
 val testList = listOf(
     VideoItem(
         title = "videoTitle",

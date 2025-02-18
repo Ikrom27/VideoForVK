@@ -1,10 +1,16 @@
 package ru.ikrom.videolist
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
@@ -14,10 +20,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import coil3.compose.AsyncImage
+import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
+import com.bumptech.glide.integration.compose.GlideImage
 import ru.ikrom.resources.DescriptionsID
 
 
@@ -27,8 +35,8 @@ fun VideoList(
 ) {
     val state by viewModel.state.collectAsState()
     when(state){
-        VideoListState.Error -> {}
-        is VideoListState.Success -> Content((state as VideoListState.Success).item, viewModel::refresh)
+        UiState.Error -> {}
+        is UiState.Success -> Content((state as UiState.Success).item, viewModel::refresh, {})
     }
 }
 
@@ -36,7 +44,8 @@ fun VideoList(
 @Composable
 fun Content(
     items: List<VideoItem>,
-    onRefresh: () -> Unit
+    onRefresh: () -> Unit,
+    onItemClick: () -> Unit,
 ){
     val refreshState by remember { mutableStateOf(false) }
     PullToRefreshBox(
@@ -46,27 +55,39 @@ fun Content(
         LazyColumn {
             items(items) {
                 ThumbnailBigItem(
-                    it.title,
-                    it.thumbnail,
+                    title = it.title,
+                    thumbnail = it.thumbnail,
+                    modifier = Modifier.clickable { onItemClick()  }
                 )
             }
         }
     }
 }
 
+@OptIn(ExperimentalGlideComposeApi::class)
 @Composable
 fun ThumbnailBigItem(
     title: String,
     thumbnail: String,
+    modifier: Modifier = Modifier,
 ) {
-    Box(
-        modifier = Modifier.fillMaxWidth()
+    Column (
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(horizontal = 8.dp)
     ) {
-        AsyncImage(
+        GlideImage(
             model = thumbnail,
             contentDescription = LocalContext.current.getString(DescriptionsID.VIDEO_THUMBNAIL),
-            modifier = Modifier.fillMaxWidth().height(100.dp)
+            modifier = Modifier
+                .fillMaxWidth()
+                .aspectRatio(16f / 9f)
         )
-        Text(title)
+
+        Text(
+            text = title,
+            modifier = Modifier
+                .padding(8.dp)
+        )
     }
 }
