@@ -23,7 +23,7 @@ class VideoListViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             _state.value = runCatching {
-                UiState.Success(repository.getPopularVideo().map { VideoItem(
+                UiState.Success(repository.getPopularVideo("nature").map { VideoItem(
                     title = it.title,
                     thumbnail = it.thumbnailUrl,
                     duration = it.duration.toLong(),

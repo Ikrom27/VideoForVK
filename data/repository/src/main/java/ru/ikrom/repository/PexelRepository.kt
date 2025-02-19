@@ -7,8 +7,8 @@ class PexelRepository @Inject constructor(
     private val removeDataSource: PexelDataSource
 ): IRepository {
 
-    override suspend fun getPopularVideo(): List<VideoModel> {
-        return removeDataSource.fetchPopularVideo().map { VideoModel(
+    override suspend fun getPopularVideo(query: String): List<VideoModel> {
+        return removeDataSource.fetchPopularVideo(query).map { VideoModel(
             id = it.id,
             title = "my video",
             thumbnailUrl = it.image,
