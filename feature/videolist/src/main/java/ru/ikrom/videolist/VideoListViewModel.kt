@@ -13,52 +13,33 @@ import javax.inject.Inject
 class VideoListViewModel @Inject constructor(
     private val repository: IRepository
 ): ViewModel() {
-    fun refresh() {
-
-    }
-
     private val _state: MutableStateFlow<UiState> = MutableStateFlow(UiState.Success(emptyList()))
     val state: StateFlow<UiState> = _state
 
+    private val _refreshState = MutableStateFlow(false)
+    val refreshState: StateFlow<Boolean> = _refreshState
+
     init {
         viewModelScope.launch {
-            _state.value = runCatching {
-                UiState.Success(repository.getPopularVideo("nature").map { VideoItem(
-                    title = it.title,
-                    thumbnail = it.thumbnailUrl,
-                    duration = it.duration.toLong(),
-                ) })
-            }.getOrNull() ?:  UiState.Error
+            update()
+        }
+    }
+
+    private suspend fun update(){
+        _state.value = runCatching {
+            UiState.Success(repository.getPopularVideo("nature").map { VideoItem(
+                title = it.title,
+                thumbnail = it.thumbnailUrl,
+                duration = it.duration.toLong(),
+            ) })
+        }.getOrNull() ?:  UiState.Error
+    }
+
+    fun refresh() {
+        _refreshState.value = true
+        viewModelScope.launch {
+            update()
+            _refreshState.value = false
         }
     }
 }
-
-
-val image = "https://babich.biz/content/images/2017/01/schools-promotional-videos.jpg"
-val testList = listOf(
-    VideoItem(
-        title = "videoTitle",
-        thumbnail = image,
-        duration = 100000L
-    ),
-    VideoItem(
-        title = "videoTitle",
-        thumbnail = image,
-        duration = 100000L
-    ),
-    VideoItem(
-        title = "videoTitle",
-        thumbnail = image,
-        duration = 100000L
-    ),
-    VideoItem(
-        title = "videoTitle",
-        thumbnail = image,
-        duration = 100000L
-    ),
-    VideoItem(
-        title = "videoTitle",
-        thumbnail = image,
-        duration = 100000L
-    )
-)
