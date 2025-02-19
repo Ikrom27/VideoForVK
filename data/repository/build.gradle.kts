@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.konan.properties.Properties
+
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
@@ -13,7 +15,11 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
-        buildConfigField("String", "PEXEL_API_KEY", "\"${project.findProperty("PEXEL_API_KEY")}\"")
+
+        val keystoreFile = project.rootProject.file("apikeys.properties")
+        val properties = Properties()
+        properties.load(keystoreFile.inputStream())
+        buildConfigField("String", "PEXEL_API_KEY", "\"${properties.getProperty("PEXEL_API_KEY")}\"")
     }
 
     buildTypes {
@@ -38,6 +44,7 @@ android {
 }
 
 dependencies {
+    implementation(libs.logging.interceptor)
     implementation(libs.converter.gson)
     implementation(libs.gson)
     implementation(libs.hilt.android)

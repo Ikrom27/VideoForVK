@@ -5,15 +5,10 @@ import ru.ikrom.repository.BuildConfig
 import javax.inject.Inject
 
 class PexelDataSource @Inject constructor(
-    private val retrofit: Retrofit
+    private val pexelService: PexelApi
 ) {
 
-    suspend fun fetchPopularVideo(): List<PexelsVideo>{
-        val api = retrofit.create(PexelApi::class.java)
-        return api.getPopularVideos(API_KEY).videos
-    }
-
-    companion object {
-        const val API_KEY = BuildConfig.PEXEL_API_KEY
+    suspend fun fetchPopularVideo(query: String): List<PexelsVideo>{
+        return pexelService.getPopularVideos(query).videos
     }
 }
