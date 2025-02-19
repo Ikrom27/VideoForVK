@@ -23,3 +23,4 @@ rootProject.name = "VideoForVK"
 include(":app")
 include(":feature:videolist")
 include(":core:resources")
+include(":data:repository")
