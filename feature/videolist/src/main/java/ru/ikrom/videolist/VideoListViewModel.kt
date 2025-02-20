@@ -28,6 +28,7 @@ class VideoListViewModel @Inject constructor(
     private suspend fun update(){
         _state.value = runCatching {
             UiState.Success(repository.getPopularVideo("nature").map { VideoItem(
+                id = it.id,
                 title = it.title,
                 thumbnail = it.thumbnailUrl,
                 duration = it.duration.toLong(),

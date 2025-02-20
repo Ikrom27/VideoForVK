@@ -11,6 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
 import ru.ikrom.videoforvk.ui.theme.VideoForVKTheme
 import ru.ikrom.videolist.VideoList
@@ -23,7 +24,12 @@ class MainActivity : ComponentActivity() {
         setContent {
             VideoForVKTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    VideoList()
+                    val navController = rememberNavController()
+
+                    MainNavigation(
+                        navController = navController,
+                        modifier = Modifier.padding(top = innerPadding.calculateTopPadding())
+                    )
                 }
             }
         }

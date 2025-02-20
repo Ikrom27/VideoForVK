@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.hilt.android)
     id("kotlin-kapt")
+    kotlin("plugin.serialization") version "2.1.10"
 }
 
 android {
@@ -42,6 +43,8 @@ android {
 }
 
 dependencies {
+    implementation(libs.kotlinx.serialization.json)
+    implementation(libs.androidx.navigation.compose)
     implementation(project(":feature:videolist"))
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)

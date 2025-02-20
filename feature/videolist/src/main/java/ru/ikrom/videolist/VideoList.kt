@@ -1,28 +1,19 @@
 package ru.ikrom.videolist
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
-import androidx.compose.material3.pulltorefresh.PullToRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -33,6 +24,7 @@ import ru.ikrom.resources.DescriptionsID
 
 @Composable
 fun VideoList(
+    onVideoClick: (Int) -> Unit,
     viewModel: VideoListViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsState()
@@ -44,7 +36,7 @@ fun VideoList(
             items = (state as UiState.Success).item,
             refreshState = refreshState,
             onRefresh = viewModel::refresh,
-            onItemClick = {}
+            onItemClick = { onVideoClick(it) }
         )
     }
 }
@@ -55,7 +47,7 @@ fun Content(
     items: List<VideoItem>,
     refreshState: Boolean,
     onRefresh: () -> Unit,
-    onItemClick: () -> Unit,
+    onItemClick: (Int) -> Unit,
 ){
 
     PullToRefreshBox(
@@ -67,7 +59,7 @@ fun Content(
                 ThumbnailBigItem(
                     title = it.title,
                     thumbnail = it.thumbnail,
-                    modifier = Modifier.clickable { onItemClick()  }
+                    modifier = Modifier.clickable { onItemClick(it.id)  }
                 )
             }
         }
