@@ -11,4 +11,8 @@ class PexelDataSource @Inject constructor(
     suspend fun fetchPopularVideo(query: String): List<PexelsVideo>{
         return pexelService.getPopularVideos(query).videos
     }
+
+    suspend fun getVideo(id: Int): PexelsVideo {
+        return pexelService.getVideo(id)
+    }
 }

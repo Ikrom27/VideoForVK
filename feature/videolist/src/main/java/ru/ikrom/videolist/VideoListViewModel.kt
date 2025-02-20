@@ -31,7 +31,7 @@ class VideoListViewModel @Inject constructor(
                 id = it.id,
                 title = it.title,
                 thumbnail = it.thumbnailUrl,
-                duration = it.duration.toLong(),
+                duration = it.toString(),
             ) })
         }.getOrNull() ?:  UiState.Error
     }

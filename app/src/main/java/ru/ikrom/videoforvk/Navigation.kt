@@ -7,6 +7,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import kotlinx.serialization.Serializable
+import ru.ikrom.player.PlayerScreen
 import ru.ikrom.videolist.VideoList
 
 @Composable
@@ -26,8 +27,7 @@ fun MainNavigation(
         }
         composable<Player> { backStackEntry ->
             val player = backStackEntry.toRoute<Player>()
-            Player(id = player.id)
-
+            PlayerScreen(videoUrl = player.videoId)
         }
     }
 
@@ -36,4 +36,4 @@ fun MainNavigation(
 @Serializable
 object VideoList
 @Serializable
-data class Player(val id: Int)
+data class Player(val videoId: Int)

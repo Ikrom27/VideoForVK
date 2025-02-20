@@ -1,19 +1,18 @@
 package ru.ikrom.repository
 
 import ru.ikrom.repository.pexel_datasource.PexelDataSource
+import ru.ikrom.repository.pexel_datasource.toModel
 import javax.inject.Inject
 
 class PexelRepository @Inject constructor(
-    private val removeDataSource: PexelDataSource
+    private val remoteDataSource: PexelDataSource
 ): IRepository {
 
     override suspend fun getPopularVideo(query: String): List<VideoModel> {
-        return removeDataSource.fetchPopularVideo(query).map { VideoModel(
-            id = it.id,
-            title = "my video",
-            thumbnailUrl = it.image,
-            duration = it.duration,
-            link = it.videoFiles.first().link
-        ) }
+        return remoteDataSource.fetchPopularVideo(query).map { it.toModel() }
+    }
+
+    override suspend fun getVideo(id: ID): VideoModel {
+        return remoteDataSource.getVideo(id.id).toModel()
     }
 }

@@ -1,5 +1,6 @@
 package ru.ikrom.videolist
 
+import android.net.Uri
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.aspectRatio
@@ -19,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
+import ru.ikrom.repository.ID
 import ru.ikrom.resources.DescriptionsID
 
 
@@ -36,7 +38,7 @@ fun VideoList(
             items = (state as UiState.Success).item,
             refreshState = refreshState,
             onRefresh = viewModel::refresh,
-            onItemClick = { onVideoClick(it) }
+            onItemClick = { onVideoClick(it.id) }
         )
     }
 }
@@ -47,7 +49,7 @@ fun Content(
     items: List<VideoItem>,
     refreshState: Boolean,
     onRefresh: () -> Unit,
-    onItemClick: (Int) -> Unit,
+    onItemClick: (ID) -> Unit,
 ){
 
     PullToRefreshBox(
@@ -70,7 +72,7 @@ fun Content(
 @Composable
 fun ThumbnailBigItem(
     title: String,
-    thumbnail: String,
+    thumbnail: Uri,
     modifier: Modifier = Modifier,
 ) {
     Column (

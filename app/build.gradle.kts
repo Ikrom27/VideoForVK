@@ -47,6 +47,7 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
     implementation(project(":feature:videolist"))
     implementation(libs.hilt.android)
+    implementation(project(":feature:player"))
     kapt(libs.hilt.compiler)
 
     implementation(libs.androidx.core.ktx)
