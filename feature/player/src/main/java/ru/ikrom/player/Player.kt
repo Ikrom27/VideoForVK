@@ -18,7 +18,7 @@ import androidx.media3.ui.PlayerView
 
 @Composable
 fun PlayerScreen(
-    videoUrl: Int,
+    videoUrl: String,
     viewModel: PlayerViewModel = hiltViewModel()
 ){
     viewModel.updateVideo(videoUrl)

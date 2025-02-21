@@ -20,13 +20,12 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
-import ru.ikrom.repository.ID
 import ru.ikrom.resources.DescriptionsID
 
 
 @Composable
 fun VideoList(
-    onVideoClick: (Int) -> Unit,
+    onVideoClick: (String) -> Unit,
     viewModel: VideoListViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsState()
@@ -38,7 +37,7 @@ fun VideoList(
             items = (state as UiState.Success).item,
             refreshState = refreshState,
             onRefresh = viewModel::refresh,
-            onItemClick = { onVideoClick(it.id) }
+            onItemClick = { onVideoClick(it) }
         )
     }
 }
@@ -49,7 +48,7 @@ fun Content(
     items: List<VideoItem>,
     refreshState: Boolean,
     onRefresh: () -> Unit,
-    onItemClick: (ID) -> Unit,
+    onItemClick: (String) -> Unit,
 ){
 
     PullToRefreshBox(
@@ -72,7 +71,7 @@ fun Content(
 @Composable
 fun ThumbnailBigItem(
     title: String,
-    thumbnail: Uri,
+    thumbnail: String,
     modifier: Modifier = Modifier,
 ) {
     Column (

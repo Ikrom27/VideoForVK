@@ -41,7 +41,7 @@ android {
 dependencies {
     implementation(libs.hilt.android)
     implementation(project(":core:resources"))
-    implementation(project(":data:repository"))
+    implementation(project(":domain:video-usecase"))
     kapt(libs.hilt.compiler)
     implementation(libs.androidx.hilt.navigation.compose)
 

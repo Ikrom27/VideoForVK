@@ -1,11 +1,8 @@
 package ru.ikrom.videolist
 
-import android.net.Uri
-import ru.ikrom.repository.ID
-
 data class VideoItem(
-    val id: ID,
+    val id: String,
     val title: String,
-    val thumbnail: Uri,
+    val thumbnail: String,
     val duration: String,
 )

@@ -6,7 +6,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import ru.ikrom.repository.IRepository
+import ru.ikrom.video_usecase.IRepository
 import javax.inject.Inject
 
 @HiltViewModel
@@ -28,7 +28,7 @@ class VideoListViewModel @Inject constructor(
     private suspend fun update(){
         _state.value = runCatching {
             UiState.Success(repository.getPopularVideo("nature").map { VideoItem(
-                id = it.id,
+                id = it.id.value,
                 title = it.title,
                 thumbnail = it.thumbnailUrl,
                 duration = it.toString(),

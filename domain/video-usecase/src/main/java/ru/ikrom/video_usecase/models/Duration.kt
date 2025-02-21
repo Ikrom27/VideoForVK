@@ -1,17 +1,5 @@
-package ru.ikrom.repository
+package ru.ikrom.video_usecase.models
 
-import android.net.Uri
-
-data class VideoModel(
-    val id: ID,
-    val title: String,
-    val thumbnailUrl: Uri,
-    val duration: Duration,
-    val link: Uri
-)
-
-@JvmInline
-value class ID(val id: Int)
 @JvmInline
 value class Duration(private val seconds: Int) {
     val duration: String

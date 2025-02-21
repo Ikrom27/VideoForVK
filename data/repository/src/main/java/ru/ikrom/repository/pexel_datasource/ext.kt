@@ -1,16 +1,15 @@
 package ru.ikrom.repository.pexel_datasource
 
-import android.net.Uri
-import ru.ikrom.repository.Duration
-import ru.ikrom.repository.ID
-import ru.ikrom.repository.VideoModel
+import ru.ikrom.video_usecase.models.Duration
+import ru.ikrom.video_usecase.models.ID
+import ru.ikrom.video_usecase.models.VideoModel
 
 fun PexelsVideo.toModel(): VideoModel {
     return VideoModel(
         id = ID(id),
         title = "my video",
-        thumbnailUrl = Uri.parse(image),
+        thumbnailUrl = image,
         duration = Duration(duration),
-        link = Uri.parse(videoFiles.first().link)
+        link = videoFiles.first().link
     )
 }

@@ -36,4 +36,4 @@ fun MainNavigation(
 @Serializable
 object VideoList
 @Serializable
-data class Player(val videoId: Int)
+data class Player(val videoId: String)

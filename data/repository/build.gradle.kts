@@ -48,6 +48,7 @@ dependencies {
     implementation(libs.converter.gson)
     implementation(libs.gson)
     implementation(libs.hilt.android)
+    implementation(project(":domain:video-usecase"))
     kapt(libs.hilt.compiler)
     implementation(libs.retrofit)
     implementation(libs.androidx.core.ktx)

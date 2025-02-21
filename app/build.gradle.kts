@@ -48,6 +48,7 @@ dependencies {
     implementation(project(":feature:videolist"))
     implementation(libs.hilt.android)
     implementation(project(":feature:player"))
+    implementation(project(":data:repository"))
     kapt(libs.hilt.compiler)
 
     implementation(libs.androidx.core.ktx)

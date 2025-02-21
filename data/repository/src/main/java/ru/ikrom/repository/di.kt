@@ -11,6 +11,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import ru.ikrom.repository.pexel_datasource.PexelApi
 import ru.ikrom.repository.pexel_datasource.PexelDataSource
+import ru.ikrom.video_usecase.IRepository
 import javax.inject.Singleton
 
 @Module
