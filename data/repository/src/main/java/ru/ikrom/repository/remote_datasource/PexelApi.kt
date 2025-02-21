@@ -1,7 +1,6 @@
-package ru.ikrom.repository.pexel_datasource
+package ru.ikrom.repository.remote_datasource
 
 import retrofit2.http.GET
-import retrofit2.http.Header
 import retrofit2.http.Path
 import retrofit2.http.Query
 

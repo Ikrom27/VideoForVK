@@ -1,4 +1,4 @@
-package ru.ikrom.repository.pexel_datasource
+package ru.ikrom.repository.remote_datasource
 
 import ru.ikrom.video_usecase.models.Duration
 import ru.ikrom.video_usecase.models.ID

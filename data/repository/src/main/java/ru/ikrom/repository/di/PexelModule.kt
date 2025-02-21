@@ -1,4 +1,4 @@
-package ru.ikrom.repository
+package ru.ikrom.repository.di
 
 import dagger.Module
 import dagger.Provides
@@ -9,14 +9,16 @@ import okhttp3.logging.HttpLoggingInterceptor
 import okhttp3.logging.HttpLoggingInterceptor.Level
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import ru.ikrom.repository.pexel_datasource.PexelApi
-import ru.ikrom.repository.pexel_datasource.PexelDataSource
+import ru.ikrom.repository.BuildConfig
+import ru.ikrom.repository.PexelRepository
+import ru.ikrom.repository.remote_datasource.PexelApi
+import ru.ikrom.repository.remote_datasource.PexelDataSource
 import ru.ikrom.video_usecase.IRepository
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-internal class RepositoryModule {
+internal class PexelModule {
     @Singleton
     @Provides
     fun provideRetrofit(): Retrofit {

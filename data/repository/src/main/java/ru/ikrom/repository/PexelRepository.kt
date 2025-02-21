@@ -1,7 +1,7 @@
 package ru.ikrom.repository
 
-import ru.ikrom.repository.pexel_datasource.PexelDataSource
-import ru.ikrom.repository.pexel_datasource.toModel
+import ru.ikrom.repository.remote_datasource.PexelDataSource
+import ru.ikrom.repository.remote_datasource.toModel
 import ru.ikrom.video_usecase.IRepository
 import ru.ikrom.video_usecase.models.ID
 import ru.ikrom.video_usecase.models.VideoModel

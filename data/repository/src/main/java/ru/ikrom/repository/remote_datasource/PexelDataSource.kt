@@ -1,7 +1,5 @@
-package ru.ikrom.repository.pexel_datasource
+package ru.ikrom.repository.remote_datasource
 
-import retrofit2.Retrofit
-import ru.ikrom.repository.BuildConfig
 import javax.inject.Inject
 
 internal class PexelDataSource @Inject constructor(
