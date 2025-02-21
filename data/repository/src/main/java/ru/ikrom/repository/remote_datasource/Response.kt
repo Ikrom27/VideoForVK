@@ -11,6 +11,7 @@ internal data class PexelsVideo(
     @SerializedName("url") val url: String,
     @SerializedName("image") val image: String,
     @SerializedName("duration") val duration: Int,
+    @SerializedName("user") val user: User,
     @SerializedName("video_files") val videoFiles: List<PexelsVideoFile>
 )
 
@@ -19,4 +20,10 @@ internal data class PexelsVideoFile(
     @SerializedName("quality") val quality: String,
     @SerializedName("file_type") val fileType: String,
     @SerializedName("link") val link: String
+)
+
+internal data class User(
+    @SerializedName("id") val id: Int,
+    @SerializedName("name") val name: String,
+    @SerializedName("url") val url: String
 )

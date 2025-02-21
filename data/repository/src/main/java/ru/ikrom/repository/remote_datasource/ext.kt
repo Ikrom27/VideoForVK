@@ -7,7 +7,7 @@ import ru.ikrom.video_usecase.models.VideoModel
 internal fun PexelsVideo.toModel(): VideoModel {
     return VideoModel(
         id = ID(id),
-        title = "my video",
+        title = user.name,
         thumbnailUrl = image,
         duration = Duration(duration),
         link = videoFiles.first().link
