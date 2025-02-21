@@ -47,7 +47,6 @@ class VideoListViewModel @Inject constructor(
             _state.value = UiState.Success(result.map { it.toVideoItem() })
         }.onFailure { e ->
             Log.e(TAG, e.message.toString())
-            _state.value = UiState.Error
         }
     }
 

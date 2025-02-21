@@ -15,4 +15,7 @@ internal interface VideoDao {
 
     @Query("DELETE FROM videos")
     suspend fun clearVideos()
+
+    @Query("SELECT * FROM videos WHERE id = :id LIMIT 1")
+    suspend fun getVideoById(id: Int): VideoEntity?
 }

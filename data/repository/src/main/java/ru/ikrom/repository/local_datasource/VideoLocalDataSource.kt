@@ -16,4 +16,7 @@ internal class VideoLocalDataSource @Inject constructor(
         }
     }
 
+    suspend fun getVideoById(id: Int): VideoEntity? {
+        return videoDao.getVideoById(id)
+    }
 }

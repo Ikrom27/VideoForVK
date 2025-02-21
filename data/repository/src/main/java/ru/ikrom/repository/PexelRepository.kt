@@ -28,6 +28,7 @@ internal class PexelRepository @Inject constructor(
     }
 
     override suspend fun getVideo(id: ID): VideoModel {
-        return remoteDataSource.getVideo(id.value.toInt()).toModel()
+        return localDataSource.getVideoById(id.value.toInt())?.toModel() ?:
+               remoteDataSource.getVideo(id.value.toInt()).toModel()
     }
 }
