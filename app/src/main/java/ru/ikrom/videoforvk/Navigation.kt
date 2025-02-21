@@ -8,7 +8,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import kotlinx.serialization.Serializable
 import ru.ikrom.player.PlayerScreen
-import ru.ikrom.videolist.VideoList
+import ru.ikrom.videolist.VideoListScreen
 
 @Composable
 fun MainNavigation(
@@ -21,7 +21,7 @@ fun MainNavigation(
         modifier = modifier) {
 
         composable<VideoList> {
-            VideoList(
+            VideoListScreen(
                 onVideoClick = { navController.navigate(route = Player(it)) }
             )
         }
