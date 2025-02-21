@@ -17,7 +17,9 @@ internal class PexelRepository @Inject constructor(
 
     override suspend fun getPopularVideo(query: String): List<VideoModel> {
         return remoteDataSource.fetchPopularVideo(query).map { it.toModel() }.apply {
-            localDataSource.updateVideos( map { it.toEntity() })
+            if(isNotEmpty()) {
+                localDataSource.updateVideos( map { it.toEntity() })
+            }
         }
     }
 
