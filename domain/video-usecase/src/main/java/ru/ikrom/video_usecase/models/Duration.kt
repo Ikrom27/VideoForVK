@@ -1,8 +1,8 @@
 package ru.ikrom.video_usecase.models
 
 @JvmInline
-value class Duration(private val seconds: Int) {
-    val duration: String
+value class Duration(val seconds: Int) {
+    val formatted: String
         get() {
             val hours = seconds / 3600
             val minutes = (seconds % 3600) / 60
@@ -14,5 +14,5 @@ value class Duration(private val seconds: Int) {
             }
         }
 
-    override fun toString(): String = duration
+    override fun toString(): String = formatted
 }

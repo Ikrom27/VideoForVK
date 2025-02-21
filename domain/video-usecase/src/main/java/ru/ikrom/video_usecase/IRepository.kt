@@ -5,5 +5,6 @@ import ru.ikrom.video_usecase.models.VideoModel
 
 interface IRepository {
     suspend fun getPopularVideo(query: String): List<VideoModel>
+    suspend fun getSavedVideo(): List<VideoModel>
     suspend fun getVideo(id: ID): VideoModel
 }

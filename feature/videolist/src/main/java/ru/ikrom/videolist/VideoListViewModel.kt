@@ -1,8 +1,10 @@
 package ru.ikrom.videolist
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -20,27 +22,44 @@ class VideoListViewModel @Inject constructor(
     val refreshState: StateFlow<Boolean> = _refreshState
 
     init {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
+            loadSavedData()
             update()
+        }
+    }
+
+    private suspend fun loadSavedData(){
+        runCatching {
+            useCase.getSavedVideo()
+        }.onSuccess { result ->
+            _state.value = UiState.Success(
+                result.map { it.toVideoItem() }
+            )
+        }.onFailure { e ->
+            Log.e(TAG, e.message.toString())
         }
     }
 
     private suspend fun update(){
-        _state.value = runCatching {
-            UiState.Success(useCase.getPopularVideo("nature").map { VideoItem(
-                id = it.id.value,
-                title = it.title,
-                thumbnail = it.thumbnailUrl,
-                duration = it.toString(),
-            ) })
-        }.getOrNull() ?:  UiState.Error
+        runCatching {
+            useCase.getPopularVideo()
+        }.onSuccess { result ->
+            _state.value = UiState.Success(result.map { it.toVideoItem() })
+        }.onFailure { e ->
+            Log.e(TAG, e.message.toString())
+            _state.value = UiState.Error
+        }
     }
 
     fun refresh() {
         _refreshState.value = true
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             update()
             _refreshState.value = false
         }
+    }
+
+    companion object {
+        val TAG = VideoListViewModel::class.simpleName
     }
 }

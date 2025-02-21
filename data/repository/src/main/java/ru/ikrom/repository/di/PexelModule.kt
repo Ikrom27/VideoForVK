@@ -1,8 +1,11 @@
 package ru.ikrom.repository.di
 
+import android.content.Context
+import androidx.room.Room
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -11,6 +14,8 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import ru.ikrom.repository.BuildConfig
 import ru.ikrom.repository.PexelRepository
+import ru.ikrom.repository.local_datasource.AppDatabase
+import ru.ikrom.repository.local_datasource.VideoLocalDataSource
 import ru.ikrom.repository.remote_datasource.PexelApi
 import ru.ikrom.repository.remote_datasource.PexelDataSource
 import ru.ikrom.video_usecase.IRepository
@@ -49,6 +54,20 @@ internal class PexelModule {
     @Singleton
     @Provides
     fun provideRepository(
-        dataSource: PexelDataSource
-    ): IRepository = PexelRepository(dataSource)
+        dataSource: PexelDataSource,
+        localDataSource: VideoLocalDataSource
+    ): IRepository = PexelRepository(dataSource, localDataSource)
+
+    @Singleton
+    @Provides
+    fun provideRoomDB(
+        @ApplicationContext context: Context
+    ): AppDatabase = Room.databaseBuilder(
+        context,
+        AppDatabase::class.java, "app_db"
+    ).build()
+
+    @Singleton
+    @Provides
+    fun provideVideoDao(database: AppDatabase) = database.videoDao()
 }
