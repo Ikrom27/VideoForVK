@@ -16,7 +16,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-class RepositoryModule {
+internal class RepositoryModule {
     @Singleton
     @Provides
     fun provideRetrofit(): Retrofit {

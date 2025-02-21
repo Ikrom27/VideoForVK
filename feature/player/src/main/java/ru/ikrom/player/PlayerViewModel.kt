@@ -6,13 +6,13 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import ru.ikrom.video_usecase.IRepository
+import ru.ikrom.video_usecase.VideoUseCase
 import ru.ikrom.video_usecase.models.ID
 import javax.inject.Inject
 
 @HiltViewModel
 class PlayerViewModel @Inject constructor(
-    private val repository: IRepository
+    private val useCase: VideoUseCase
 ): ViewModel() {
     private var _state: MutableStateFlow<UiState> = MutableStateFlow(UiState.Loading)
     val state: StateFlow<UiState> = _state
@@ -21,7 +21,7 @@ class PlayerViewModel @Inject constructor(
         viewModelScope.launch {
             _state.value = UiState.Loading
             runCatching {
-                repository.getVideo(ID(id))
+                useCase.getVideo(ID(id))
             }.onSuccess {
                 _state.value = UiState.Success(
                     VideoInfo(

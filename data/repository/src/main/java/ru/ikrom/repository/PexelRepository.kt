@@ -7,7 +7,7 @@ import ru.ikrom.video_usecase.models.ID
 import ru.ikrom.video_usecase.models.VideoModel
 import javax.inject.Inject
 
-class PexelRepository @Inject constructor(
+internal class PexelRepository @Inject constructor(
     private val remoteDataSource: PexelDataSource
 ): IRepository {
 

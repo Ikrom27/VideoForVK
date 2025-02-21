@@ -6,7 +6,7 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 
-interface PexelApi {
+internal interface PexelApi {
     @GET("videos/search")
     suspend fun getPopularVideos(
         @Query("query") query: String,

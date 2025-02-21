@@ -4,7 +4,7 @@ import retrofit2.Retrofit
 import ru.ikrom.repository.BuildConfig
 import javax.inject.Inject
 
-class PexelDataSource @Inject constructor(
+internal class PexelDataSource @Inject constructor(
     private val pexelService: PexelApi
 ) {
 

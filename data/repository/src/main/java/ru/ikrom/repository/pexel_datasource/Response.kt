@@ -2,11 +2,11 @@ package ru.ikrom.repository.pexel_datasource
 
 import com.google.gson.annotations.SerializedName
 
-data class PexelsVideoResponse(
+internal data class PexelsVideoResponse(
     @SerializedName("videos") val videos: List<PexelsVideo>
 )
 
-data class PexelsVideo(
+internal data class PexelsVideo(
     @SerializedName("id") val id: Int,
     @SerializedName("url") val url: String,
     @SerializedName("image") val image: String,
@@ -14,7 +14,7 @@ data class PexelsVideo(
     @SerializedName("video_files") val videoFiles: List<PexelsVideoFile>
 )
 
-data class PexelsVideoFile(
+internal data class PexelsVideoFile(
     @SerializedName("id") val id: Int,
     @SerializedName("quality") val quality: String,
     @SerializedName("file_type") val fileType: String,
