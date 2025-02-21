@@ -2,5 +2,8 @@
 <resources>
     <!-- Descriptions -->
     <string name="description_video_thumbnail">Thumbnail</string>
+    <string name="description_connection_error">Connection error</string>
 
+    <!-- Text -->
+    <string name="text_connection_error">Connection error</string>
 </resources>

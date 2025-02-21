@@ -15,11 +15,14 @@ import javax.inject.Inject
 class VideoListViewModel @Inject constructor(
     private val useCase: VideoUseCase
 ): ViewModel() {
-    private val _state: MutableStateFlow<UiState> = MutableStateFlow(UiState.Success(emptyList()))
-    val state: StateFlow<UiState> = _state
+    private val _content: MutableStateFlow<List<VideoItem>> = MutableStateFlow(emptyList())
+    val content: StateFlow<List<VideoItem>> = _content
 
     private val _refreshState = MutableStateFlow(false)
     val refreshState: StateFlow<Boolean> = _refreshState
+
+    private val _errorState = MutableStateFlow(false)
+    val errorState = _errorState
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
@@ -32,9 +35,7 @@ class VideoListViewModel @Inject constructor(
         runCatching {
             useCase.getSavedVideo()
         }.onSuccess { result ->
-            _state.value = UiState.Success(
-                result.map { it.toVideoItem() }
-            )
+            _content.value = result.map { it.toVideoItem() }
         }.onFailure { e ->
             Log.e(TAG, e.message.toString())
         }
@@ -44,9 +45,9 @@ class VideoListViewModel @Inject constructor(
         runCatching {
             useCase.getPopularVideo()
         }.onSuccess { result ->
-            _state.value = UiState.Success(result.map { it.toVideoItem() })
+            _content.value = result.map { it.toVideoItem() }
         }.onFailure { e ->
-            Log.e(TAG, e.message.toString())
+            errorState.value = true
         }
     }
 
@@ -56,6 +57,10 @@ class VideoListViewModel @Inject constructor(
             update()
             _refreshState.value = false
         }
+    }
+
+    fun resetErrorState() {
+        _errorState.value = false
     }
 
     companion object {

@@ -1,5 +1,6 @@
 package ru.ikrom.videolist
 
+import android.widget.Toast
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -27,57 +28,60 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import ru.ikrom.resources.DescriptionsID
-import ru.ikrom.video_usecase.models.Duration
+import ru.ikrom.resources.TextID
 
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun VideoListScreen(
     onVideoClick: (String) -> Unit,
     viewModel: VideoListViewModel = hiltViewModel()
 ) {
-    val state by viewModel.state.collectAsState()
+    val content by viewModel.content.collectAsState()
     val refreshState by viewModel.refreshState.collectAsState()
+    val errorState by viewModel.errorState.collectAsState()
 
-    when(state){
-        UiState.Error -> {}
-        is UiState.Success -> Content(
-            items = (state as UiState.Success).item,
-            refreshState = refreshState,
-            onRefresh = viewModel::refresh,
+    if(errorState){
+        val context = LocalContext.current
+        Toast.makeText(
+            context,
+            context.getString(TextID.CONNECTION_ERROR),
+            Toast.LENGTH_SHORT
+        ).show()
+        viewModel.resetErrorState()
+    }
+
+    PullToRefreshBox(
+        isRefreshing = refreshState,
+        onRefresh = viewModel::refresh,
+    ) {
+        Content(
+            items = content,
             onItemClick = { onVideoClick(it) }
         )
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Content(
+internal fun Content(
     items: List<VideoItem>,
-    refreshState: Boolean,
-    onRefresh: () -> Unit,
     onItemClick: (String) -> Unit,
 ){
-
-    PullToRefreshBox(
-        isRefreshing = refreshState,
-        onRefresh = onRefresh,
-    ) {
-        LazyColumn {
-            items(items) {
-                ThumbnailBigItem(
-                    title = it.title,
-                    thumbnail = it.thumbnail,
-                    duration = it.duration,
-                    modifier = Modifier.clickable { onItemClick(it.id)  }
-                )
-            }
+    LazyColumn {
+        items(items) {
+            ThumbnailBigItem(
+                title = it.title,
+                thumbnail = it.thumbnail,
+                duration = it.duration,
+                modifier = Modifier.clickable { onItemClick(it.id)  }
+            )
         }
     }
 }
 
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
-fun ThumbnailBigItem(
+internal fun ThumbnailBigItem(
     title: String,
     thumbnail: String,
     duration: String,

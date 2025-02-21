@@ -9,7 +9,7 @@ data class VideoItem(
     val duration: String,
 )
 
-fun VideoModel.toVideoItem() = VideoItem(
+internal fun VideoModel.toVideoItem() = VideoItem(
     id = id.value,
     title = title,
     thumbnail = thumbnailUrl,
