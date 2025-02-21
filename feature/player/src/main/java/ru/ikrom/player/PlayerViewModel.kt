@@ -1,5 +1,6 @@
 package ru.ikrom.player
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -14,22 +15,29 @@ import javax.inject.Inject
 class PlayerViewModel @Inject constructor(
     private val useCase: VideoUseCase
 ): ViewModel() {
-    private var _state: MutableStateFlow<UiState> = MutableStateFlow(UiState.Loading)
-    val state: StateFlow<UiState> = _state
+    private val _content: MutableStateFlow<VideoInfo?> = MutableStateFlow(null)
+    val content: StateFlow<VideoInfo?> = _content
+
+    private val _errorState: MutableStateFlow<Boolean> = MutableStateFlow(false)
+    val errorState: StateFlow<Boolean> = _errorState
 
     fun updateVideo(id: String) {
         viewModelScope.launch {
-            _state.value = UiState.Loading
             runCatching {
                 useCase.getVideo(ID(id))
-            }.onSuccess {
-                _state.value = UiState.Success(
-                    VideoInfo(
-                        title = it.title,
-                        url = it.link
-                    )
+            }.onSuccess { result ->
+                _content.value = VideoInfo(
+                    title = result.title,
+                    url = result.link
                 )
+            }.onFailure { e ->
+                _errorState.value = true
+                Log.e(TAG, e.message.toString())
             }
         }
+    }
+
+    companion object {
+        val TAG = PlayerViewModel::class.simpleName
     }
 }

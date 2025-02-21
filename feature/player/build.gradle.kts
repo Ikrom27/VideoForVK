@@ -44,10 +44,12 @@ dependencies {
     implementation(libs.hilt.android)
     implementation(project(":core:resources"))
     implementation(project(":domain:video-usecase"))
+    implementation(libs.androidx.material3.android)
     kapt(libs.hilt.compiler)
     implementation(libs.androidx.hilt.navigation.compose)
 
     implementation(libs.compose)
+    implementation(libs.androidx.material3)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
